@@ -2,7 +2,7 @@ const { resolve } = require('path');
 const webpack = require('webpack');
 
 module.exports = {
-  devtool: 'inline-source-map',
+  devtool: "source-map",
   devServer: {
     hot: true,
     contentBase: resolve(__dirname, 'dist'),
@@ -10,10 +10,7 @@ module.exports = {
   },
   context: resolve(__dirname, 'src'),
   entry: [
-    'react-hot-loader/patch',
-    'webpack-dev-server/client?http://localhost:8080',
-    'webpack/hot/only-dev-server',
-    './index.js'
+    resolve(__dirname, 'src/index.js')
   ],
   output: {
     filename: 'bundle.js',
@@ -39,12 +36,9 @@ module.exports = {
       },
     ],
   },
-
   plugins: [
     new webpack.HotModuleReplacementPlugin(),
-    // enable HMR globally
-
     new webpack.NamedModulesPlugin(),
-    // prints more readable module names in the browser console on HMR updates
-  ],
+    new webpack.optimize.UglifyJsPlugin()
+  ]
 };
