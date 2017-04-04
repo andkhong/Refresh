@@ -5,6 +5,7 @@ module.exports = {
   procImage: (req, res, next) => {
     const { image, filter } = req.body;
     const bufferedImage = getBuffer(image);
+    // const bufferedImage = new Buffer.from(image);
 
     Jimp.read(bufferedImage).then( (img) => {
       img.brightness(parseFloat(filter.brightness)/1000)
@@ -28,7 +29,15 @@ module.exports = {
         if(colors.length > 0) img.color(colors);
         // End Bad CODE
         const buffer = img.bitmap.data;
-        
+        // const encodeString = "data:image/png;base64,";
+
+        console.log(buffer.toString('base64'));
+
+        // res.writeHead(200, {
+        //   'Content-Type': 'image/png',
+        //   'Content-Disposition': 'attachment;filename=Look.png',
+        // });
+        // res.end(new Buffer(buffer, 'binary'));
 
     }).catch( function(err){
       console.log("Jimp has an issue with command, this is due to", err);
@@ -39,7 +48,7 @@ module.exports = {
 
 function getBuffer(string){
   let result = '';
-  // Remove unnecessary string data prior to buffering
+  // Remove "data:image/png;base64, " from string to convert to buffer
   for(let i = 23; i < string.length; i++){
     result = result + string[i];
   }
