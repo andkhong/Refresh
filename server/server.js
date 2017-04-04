@@ -8,7 +8,7 @@ const jimp = require('./jimp');
 
 // Middleware
 app.use('/', express.static('dist'));
-app.use(bodyParser.json());
+app.use(bodyParser.json({limit: '50mb'}));
 // End Middleware
 
 // Routes

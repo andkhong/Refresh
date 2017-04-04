@@ -3,9 +3,7 @@ import React, { Component } from 'react';
 export default class Upload extends Component {
   constructor(props){
     super(props);
-    this.state = {
-      image: null
-    }
+    this.state = { image: null };
   }
 
   setImage(e){

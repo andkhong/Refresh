@@ -1,33 +1,45 @@
 const Jimp = require('jimp');
 const path = require('path');
-const fs = require('fs');
-const request = require('request');
 
 module.exports = {
   procImage: (req, res, next) => {
     const { image, filter } = req.body;
-    const bufferImage = getBuffer(image);
-    Jimp.read(bufferedImage).then( (result) => {
-      result.brightness(parseFloat(filter.brightness)/1000)
-        .contrast(parseFloat(filter.contrast)/100 - 1) // Value between -1 to 1
-        .opacity(parseFloat(filter.opacity)/100)
-        // .color([
-        //   { apply: 'desaturate', params: [parseFloat(filter.grayscale)]}, // grayscale
-        //   { apply: 'hue', params: [parseFloat(filter['hue-rotate'])] },
-        //   // { apply: 'saturate', params: [90] }
-        // ])
-        if(parseFloat(filter.blur) > 0) result.blur(); // Blur does not work well
-        if(parseFloat(filter.sepia) > 0) result.sepia(); // Sepia Does not take in values
-        if(parseFloat(filter.invert) > 0) result.invert(); // Invert does not take in values
-        console.log(result);
+    const bufferedImage = getBuffer(image);
+
+    Jimp.read(bufferedImage).then( (img) => {
+      img.brightness(parseFloat(filter.brightness)/1000)
+         .contrast(parseFloat(filter.contrast)/100 - 1) // Value between -1 to 1
+         .opacity(parseFloat(filter.opacity)/100)
+         if(parseFloat(filter.blur) > 0) img.blur(); // Blur does not work well
+         if(parseFloat(filter.sepia) > 0) img.sepia(); // Sepia Does not take in values
+         if(parseFloat(filter.invert) > 0) img.invert(); // Invert does not take in values
+
+         // BAD CODE
+         let colors = [];
+         if(parseFloat(filter.grayscale) > 0) colors.push(
+           { apply: 'desaturate', params: [parseFloat(filter.grayscale)]} // grayscale
+         );
+         if(parseFloat(filter['hue-rotate']) > 0) colors.push(
+           { apply: 'hue', params: [parseFloat(filter['hue-rotate'])] }
+         );
+         if(parseFloat(filter.saturate) > 100) colors.push(
+           { apply: 'saturate', params: [parseFloat(filter.saturate)] }
+        );
+        if(colors.length > 0) img.color(colors);
+        // End Bad CODE
+        const buffer = img.bitmap.data;
+        
+
     }).catch( function(err){
       console.log("Jimp has an issue with command, this is due to", err);
     });
+
   }
 }
 
 function getBuffer(string){
   let result = '';
+  // Remove unnecessary string data prior to buffering
   for(let i = 23; i < string.length; i++){
     result = result + string[i];
   }
