@@ -1,8 +1,9 @@
-function uploadReducer(state = { image: null }, action){
+function uploadReducer(state = { image: null, ext: null }, action){
   switch (action.type) {
     case "UPLOAD_IMAGE":
       return Object.assign({}, state, {
-        image: action.image
+        image: action.image,
+        ext: action.ext
       })
     default:
       return state

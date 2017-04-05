@@ -2,9 +2,9 @@ const Jimp = require('jimp');
 
 module.exports = {
   procImage: (req, res, next) => {
-    const { image, filter } = req.body;
+    const { image, filter, ext } = req.body;
     const bufferedImage = getBuffer(image);
-    callJimp(bufferedImage, filter).then( (result) => {
+    callJimp(bufferedImage, filter, ext).then( (result) => {
       console.log('Image Processed');
       res.end();
     });
@@ -15,7 +15,7 @@ function getBuffer(string){
   return new Buffer.from(string.replace(/^data:image\/(png|gif|jpeg);base64,/,''), 'base64');
 }
 
-function callJimp(buffer, filter){
+function callJimp(buffer, filter, extension){
   return Jimp.read(buffer).then( (img) => {
     img.brightness(parseFloat(filter.brightness)/1000)
        .contrast(parseFloat(filter.contrast)/100 - 1) // Value between -1 to 1
@@ -37,7 +37,10 @@ function callJimp(buffer, filter){
       );
       if(colors.length > 0) img.color(colors);
       // End Bad CODE
-      img.write("jimp.png");
+      let ext = '';
+      if(extension === 'image/png') ext = '.png';
+      else if(extension === 'image/jpeg') ext = '.jpg';
+      img.write("jimp" + ext);
   }).catch( function(err){
     console.log("Jimp has an issue with command, this is due to", err);
   });

@@ -6,6 +6,7 @@ import Download from './Download';
 const mapStateToProps = (state) => {
   return {
     image: state.uploadReducer.image,
+    ext: state.uploadReducer.ext,
     filter: state.filterReducer.filters
   }
 }

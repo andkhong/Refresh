@@ -3,11 +3,17 @@ import React, { Component } from 'react';
 export default class Upload extends Component {
   constructor(props){
     super(props);
-    this.state = { image: null };
+    this.state = {
+      image: null,
+      ext: null
+     };
   }
 
   setImage(e){
-    this.setState({ image: e.target.files[0] });
+    this.setState({
+      image: e.target.files[0],
+      ext: e.target.files[0].type
+    });
   }
 
   procImage(e){
@@ -15,9 +21,9 @@ export default class Upload extends Component {
     if(this.state.image){
       const { upload } = this.props;
       const reader = new FileReader();
-      let image = this.state.image;
+      let { image, ext } = this.state;
       reader.onloadend = () => {
-        upload(reader.result)
+        upload(reader.result, ext)
       }
       reader.readAsDataURL(image);
     } else console.log('no image')

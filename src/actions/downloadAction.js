@@ -1,8 +1,9 @@
-export const DOWNLOAD_IMG = "DOWNLOAD_IMG";
+import axios from 'axios';
 
 export function downloadImage(config){
-  return {
-    type: DOWNLOAD_IMG,
-    config
-  }
+  axios.post('/download', config)
+    .then( (res) => {
+      console.log('Image successfully generated on server');
+      window.save('/download');
+  });
 }

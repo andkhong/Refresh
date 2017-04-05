@@ -16,8 +16,11 @@ app.get('/', (req, res) => {
   res.sendFile(join(__dirname, '/../dist/index.html'));
 });
 app.post('/download', jimp.procImage);
-app.get('/download', function(req, res){
+app.get('/download/png', function(req, res){
   res.download('./jimp.png');
+});
+app.get('/download/jpg', function(req, res){
+  res.download('./jimp.jpg');
 });
 // End Routes
 

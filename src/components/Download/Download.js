@@ -4,19 +4,24 @@ import axios from 'axios';
 export default class Download extends Component {
   download(e){
     e.preventDefault();
-    const { filter, image, downloadImage } = this.props;
-    const request = { image, filter };
+    const { image, filter, ext, downloadImage } = this.props;
+    const request = { image, filter, ext };
+
     axios.post('/download', request)
       .then( (res) => {
-        console.log(res);
-        // window.open('/download');
-      }).then( ()=> {
-        window.open('/download');
-      });
+        console.log('Image successfully generated on server');
+        if(ext === 'image/jpeg') window.open('/download/jpg');
+        else if (ext === 'image/png') {
+          window.open('/download/png');
+        }
+    });
+    // downloadImage(request);
   }
   render(){
     return(
-      <button onClick={this.download.bind(this)}> Download </button>
+      <div>
+        <button onClick={this.download.bind(this)}> Download Image </button>
+      </div>
     )
   }
-}
+};

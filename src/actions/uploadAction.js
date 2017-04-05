@@ -1,8 +1,9 @@
 export const UPLOAD_IMAGE = "UPLOAD_IMAGE";
 
-export function uploadImage(image){
+export function uploadImage(image, ext){
   return {
     type: UPLOAD_IMAGE,
-    image
+    image,
+    ext
   }
 }
