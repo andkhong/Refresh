@@ -37,6 +37,8 @@ function callJimp(buffer, filter, extension){
       );
       if(colors.length > 0) img.color(colors);
       // End Bad CODE
+      if(extension === 'image/jpeg') extension = 'jpg';
+      else extension = 'png';
       img.write("jimp." + extension);
   }).catch( function(err){
     console.log("Jimp has an issue with command, this is due to", err);

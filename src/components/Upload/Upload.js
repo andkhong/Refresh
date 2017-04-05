@@ -10,12 +10,9 @@ export default class Upload extends Component {
   }
 
   setImage(e){
-    let type = '';
-    if(e.target.files[0].type === 'image/jpeg') type = 'jpg';
-    else type = 'png';
     this.setState({
       image: e.target.files[0],
-      ext: type
+      ext: e.target.files[0].type
     });
   }
 
