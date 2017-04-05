@@ -6,9 +6,11 @@ export default class Download extends Component {
     e.preventDefault();
     const { filter, image, downloadImage } = this.props;
     const request = { image, filter };
-    let self = this;
     axios.post('/download', request)
       .then( (res) => {
+        console.log(res);
+        // window.open('/download');
+      }).then( ()=> {
         window.open('/download');
       });
   }

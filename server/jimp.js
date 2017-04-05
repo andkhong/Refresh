@@ -38,7 +38,6 @@ function callJimp(buffer, filter){
       if(colors.length > 0) img.color(colors);
       // End Bad CODE
       img.write("jimp.png");
-      return img.bitmap;
   }).catch( function(err){
     console.log("Jimp has an issue with command, this is due to", err);
   });
