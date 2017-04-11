@@ -8,17 +8,13 @@ export default class Download extends Component {
     const request = { image, filter, mimetype };
     axios.post('/download', request)
       .then( (res) => {
-        console.log('Image successfully generated on server');
+        console.log('Image has been downloaded to the client');
         window.open('/download/' + mimetype);
     });
   }
   render(){
     return(
-      <button
-        onClick={this.download.bind(this)}
-      >
-        Download Image
-      </button>
+      <button onClick={this.download.bind(this)}> Download Image </button>
     )
   }
 };

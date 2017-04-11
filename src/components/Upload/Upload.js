@@ -31,7 +31,7 @@ export default class Upload extends Component {
 
   render(){
     return(
-      <form onSubmit={this.procImage.bind(this)}>
+      <form encType="multipart/form-data" onSubmit={this.procImage.bind(this)}>
         <input
           type="file"
           accept="image/x-png,image/jpeg"
