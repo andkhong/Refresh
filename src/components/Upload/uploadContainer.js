@@ -5,8 +5,8 @@ import * as uploadActionCreators from './../../actions/uploadAction';
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    upload: (file, type) => {
-      dispatch(uploadActionCreators.uploadImage(file, type))
+    upload: (file, mimetype) => {
+      dispatch(uploadActionCreators.uploadImage(file, mimetype))
     }
   }
 }

@@ -5,14 +5,14 @@ export default class Upload extends Component {
     super(props);
     this.state = {
       image: null,
-      ext: null
+      mimetype: null
      };
   }
 
   setImage(e){
     this.setState({
       image: e.target.files[0],
-      ext: e.target.files[0].type
+      mimetype: e.target.files[0].type
     });
   }
 
@@ -21,9 +21,9 @@ export default class Upload extends Component {
     if(this.state.image){
       const { upload } = this.props;
       const reader = new FileReader();
-      let { image, ext } = this.state;
+      let { image, mimetype } = this.state;
       reader.onloadend = () => {
-        upload(reader.result, ext)
+        upload(reader.result, mimetype)
       }
       reader.readAsDataURL(image);
     } else console.log('no image')

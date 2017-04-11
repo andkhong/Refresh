@@ -1,10 +1,11 @@
 const Jimp = require('jimp');
 
+
 module.exports = {
   procImage: (req, res, next) => {
-    const { image, filter, ext } = req.body;
+    const { image, filter, mimetype } = req.body;
     const bufferedImage = getBuffer(image);
-    callJimp(bufferedImage, filter, ext).then( (result) => {
+    callJimp(bufferedImage, filter, mimetype).then( (result) => {
       console.log('Image Processed');
       res.end();
     });
@@ -15,7 +16,7 @@ function getBuffer(string){
   return new Buffer.from(string.replace(/^data:image\/(png|gif|jpeg);base64,/,''), 'base64');
 }
 
-function callJimp(buffer, filter, extension){
+function callJimp(buffer, filter, mimetype){
   return Jimp.read(buffer).then( (img) => {
     img.brightness(parseFloat(filter.brightness)/1000)
        .contrast(parseFloat(filter.contrast)/100 - 1) // Value between -1 to 1
@@ -27,7 +28,7 @@ function callJimp(buffer, filter, extension){
        // BAD CODE
        let colors = [];
        if(parseFloat(filter.grayscale) > 0) colors.push(
-         { apply: 'desaturate', params: [parseFloat(filter.grayscale)]} // grayscale
+         { apply: 'desaturate', params: [parseFloat(filter.grayscale)] } // grayscale
        );
        if(parseFloat(filter['hue-rotate']) > 0) colors.push(
          { apply: 'hue', params: [parseFloat(filter['hue-rotate'])] }
@@ -37,9 +38,12 @@ function callJimp(buffer, filter, extension){
       );
       if(colors.length > 0) img.color(colors);
       // End Bad CODE
-      if(extension === 'image/jpeg') extension = 'jpg';
-      else extension = 'png';
-      img.write("jimp." + extension);
+
+      let ext = (mimetype === 'image/jpeg') ? 'jpg': 'png';
+      let file = "temp/jimp." + ext;
+      img.write(file, function(){
+        console.log("File is written successfully!")
+      });
   }).catch( function(err){
     console.log("Jimp has an issue with command, this is due to", err);
   });
