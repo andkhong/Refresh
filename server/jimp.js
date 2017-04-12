@@ -3,21 +3,14 @@ const Jimp = require('jimp');
 module.exports = {
   procImage: (req, res, next) => {
     const { image, filter, mimetype } = req.body;
+    const token = res.token;
     const bufferedImage = getBuffer(image);
-
     callJimp(bufferedImage, filter)
       .then( (jimp) => {
-        new Promise( (resolve, reject) => {
-          let ext = (mimetype === 'image/jpeg') ? 'jpg': 'png';
-          let file = "temp/jimp." + ext;
-          // Jimp Write Method is Asynchronous by Nature
-          jimp.write(file, () => {
-            console.log("Step 1:", file, 'successfully written!');
-            resolve();
-          });
-        }).then( () => {
-          console.log('Step 2: Image is processed and ready for download');
-          res.end();
+        writeFile(jimp, token, mimetype)
+          .then( () => {
+            console.log('Step 2: Image is processed and ready for download');
+            res.end();
         });
     });
   }
@@ -52,5 +45,17 @@ function callJimp(buffer, filter){
       return image;
   }).catch( function(err){
     console.log("Jimp has an issue with command, this is due to", err);
+  });
+}
+
+function writeFile(jimp, token, mimetype){
+  return new Promise( (resolve, reject) => {
+    let dir = "temp/";
+    let ext = (mimetype === 'image/jpeg') ? '.jpg': '.png';
+    let file = dir + token + ext;
+    jimp.write(file, () => {
+      console.log("Step 1:", file, 'successfully written!');
+      resolve();
+    });
   });
 }

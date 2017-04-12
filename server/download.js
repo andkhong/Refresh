@@ -2,9 +2,12 @@ const fs = require('fs');
 
 module.exports = {
   handleDownload: function(req, res, next) {
-    let ext = req.url.endsWith('png') ? 'png' : 'jpg';
-    let file = './temp/jimp.' + ext;
-    console.log("Step 3:", file, 'will be downloaded to the client')
+    let dir = './temp/';
+    console.log(req.token)
+    let token = res.token;
+    let ext = req.url.endsWith('png') ? '.png' : '.jpg';
+    let file = dir + token + ext;
+    console.log("Step 3: Initiating file download to client");
     res.download(file, function(err){
       if (err) console.log(err);
       else {
