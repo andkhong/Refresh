@@ -2,14 +2,15 @@ const Jimp = require('jimp');
 
 module.exports = {
   procImage: (req, res, next) => {
-    const { image, filter, mimetype, token } = req.body;
+    const { image, filter, mimetype } = req.body;
     const bufferedImage = getBuffer(image);
+    const token = require('uuid/v1')();
     callJimp(bufferedImage, filter)
       .then( (jimp) => {
-        writeFile(jimp, token, mimetype)
+        writeFile(jimp, mimetype)
           .then( () => {
             console.log('Step 2: Image is processed and ready for download');
-            next();
+            res.send(token);
         });
     });
   }

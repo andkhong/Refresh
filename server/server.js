@@ -4,7 +4,6 @@ const { join } = require('path');
 const bodyParser = require('body-parser');
 
 const port = (process.env.PORT || 8080);
-const { generateToken } = require('./token');
 const { procImage } = require('./jimp');
 const { handleDownload } = require('./download');
 
@@ -17,11 +16,8 @@ app.use(bodyParser.json({limit: '50mb'}));
 app.get('/', (req, res) => {
   res.sendFile(join(__dirname, '/../dist/index.html'));
 });
-app.post('/download', generateToken, procImage, function(req, res, next){
-  const downloadRoute = '/download/' + req.body.mimetype + '/' + req.body.token;
-  app.get(downloadRoute, handleDownload);
-  res.send(req.body.token);
-});
+app.post('/download', procImage);
+app.get('/download/:token', handleDownload);
 // End Routes
 
 app.listen(port, function(){
