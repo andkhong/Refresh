@@ -2,15 +2,14 @@ const Jimp = require('jimp');
 
 module.exports = {
   procImage: (req, res, next) => {
-    const { image, filter, mimetype } = req.body;
-    const token = res.token;
+    const { image, filter, mimetype, token } = req.body;
     const bufferedImage = getBuffer(image);
     callJimp(bufferedImage, filter)
       .then( (jimp) => {
         writeFile(jimp, token, mimetype)
           .then( () => {
             console.log('Step 2: Image is processed and ready for download');
-            res.end();
+            next();
         });
     });
   }
@@ -50,9 +49,8 @@ function callJimp(buffer, filter){
 
 function writeFile(jimp, token, mimetype){
   return new Promise( (resolve, reject) => {
-    let dir = "temp/";
     let ext = (mimetype === 'image/jpeg') ? '.jpg': '.png';
-    let file = dir + token + ext;
+    let file = "temp/" + token + ext;
     jimp.write(file, () => {
       console.log("Step 1:", file, 'successfully written!');
       resolve();

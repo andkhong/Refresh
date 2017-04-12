@@ -3,9 +3,8 @@ const fs = require('fs');
 module.exports = {
   handleDownload: function(req, res, next) {
     let dir = './temp/';
-    console.log(req.token)
-    let token = res.token;
-    let ext = req.url.endsWith('png') ? '.png' : '.jpg';
+    let token = req.url.slice(20);
+    let ext = '.' + req.url.slice(16, 20);
     let file = dir + token + ext;
     console.log("Step 3: Initiating file download to client");
     res.download(file, function(err){
