@@ -7,10 +7,12 @@ module.exports = {
     const token = require('uuid/v1')();
     callJimp(bufferedImage, filter)
       .then( (jimp) => {
-        writeFile(jimp, mimetype)
+        writeFile(jimp, token, mimetype)
           .then( () => {
             console.log('Step 2: Image is processed and ready for download');
             res.send(token);
+        }).catch( (err) => {
+          console.log(err);
         });
     });
   }

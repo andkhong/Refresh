@@ -8,11 +8,15 @@ import Download from './Download/downloadContainer';
 
 const App = () => (
   <div className={styles.app}>
-    <h2> Refresh Image </h2>
-    <Upload />
-    <Image />
-    <Download />
-    <Filter />
+    <div className={styles.left}>
+      <h2> Refresh Image </h2>
+      <Upload />
+      <Filter />
+      <Download />
+    </div>
+    <div className={styles.right}>
+      <Image />
+    </div>
   </div>
 );
 

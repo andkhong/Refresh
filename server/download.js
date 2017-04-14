@@ -5,7 +5,7 @@ module.exports = {
     let file = './temp/' + req.params.token;
     console.log("Step 3: Initiating file download to client");
     res.download(file, function(err){
-      if (err) console.log(err);
+      if (err) console.log("File was not created conventionally on our server, please use the app as intended");
       else {
         console.log("Step 4: File has been downloaded and will be deleted from server");
         deleteFile(file);

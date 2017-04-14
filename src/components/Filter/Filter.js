@@ -36,15 +36,15 @@ export default class Filter extends Component {
               max={max}
             />
             { filter[item] } {type}
-            <button onClick={this.resetFilter.bind(this, item)}> Reset {item} </button>
+            <button className='filterButton' onClick={this.resetFilter.bind(this, item)}> Reset {item} </button>
         </div>
       )
     });
 
     return(
       <div>
-        { result }
         <button onClick={this.props.resetImage}> Reset all filters </button>
+        { result }
       </div>
     )
   }
