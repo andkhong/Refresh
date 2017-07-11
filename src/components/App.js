@@ -14,9 +14,7 @@ const App = () => (
       <Filter />
       <Download />
     </div>
-    <div className={styles.right}>
-      <Image />
-    </div>
+    <div className={styles.right}> <Image /> </div>
   </div>
 );
 

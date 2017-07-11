@@ -16,7 +16,7 @@ export default class Filter extends Component {
 
   render(){
     const { filter, reset } = this.props;
-    const percentageSetting = ['blur', 'brightness', 'contrast', 'grayscale', 'hue-rotate', 'invert', 'opacity', 'saturate', 'sepia'];
+    const percentageSetting = ['brightness', 'contrast', 'grayscale', 'hue-rotate', 'invert', 'opacity', 'saturate', 'sepia'];
     const result = percentageSetting.map( (item, index) => {
       let max, type = '%';
       if (item === 'hue-rotate') max = 360, type = 'degrees';

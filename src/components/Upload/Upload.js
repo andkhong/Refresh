@@ -7,6 +7,8 @@ export default class Upload extends Component {
       image: null,
       mimetype: null
      };
+    this.procImage = this.procImage.bind(this);
+    this.setImage = this.setImage.bind(this);
   }
 
   setImage(e){
@@ -18,24 +20,22 @@ export default class Upload extends Component {
 
   procImage(e){
     e.preventDefault();
-    if(this.state.image){
+    if (this.state.image){
       const { upload } = this.props;
       const reader = new FileReader();
       let { image, mimetype } = this.state;
-      reader.onloadend = () => {
-        upload(reader.result, mimetype)
-      }
+      reader.onloadend = () => upload(reader.result, mimetype);
       reader.readAsDataURL(image);
-    } else console.log('no image')
+    }
   }
 
   render(){
     return(
-      <form encType="multipart/form-data" onSubmit={this.procImage.bind(this)}>
+      <form encType="multipart/form-data" onSubmit={this.procImage}>
         <input
           type="file"
           accept="image/x-png,image/jpeg"
-          onChange={this.setImage.bind(this)}
+          onChange={this.setImage}
         />
         <button> Upload Image </button>
       </form>

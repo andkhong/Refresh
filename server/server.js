@@ -20,6 +20,4 @@ app.post('/download', procImage);
 app.get('/download/:token', handleDownload);
 // End Routes
 
-app.listen(port, function(){
-  console.log("Build Mode: Listening at http://localhost:", port);
-});
+app.listen(port, () =>  console.log("Build Mode: Listening at http://localhost:", port));
